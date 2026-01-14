@@ -1,0 +1,20 @@
+73v9ze
+j3zweq
+g865yq
+y819p7
+ym82pg
+
+https://stackoverflow.com/questions/27068596/how-to-include-files-outside-of-dockers-build-context
+How can I include files from outside of Docker's build context using the "ADD" command in the Docker file?
+From the Docker documentation:
+The path must be inside the context of the build; you cannot ADD ../something/something, because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.
+I do not want to restructure my whole project just to accommodate Docker in this matter. I want to keep all my Docker files in the same sub-directory.
+Also, it appears Docker does not yet (and may not ever) support symlinks: Dockerfile ADD command does not follow symlinks on host #1676.
+The only other thing I can think of is to include a pre-build step to copy the files into the Docker build context (and configure my version control to ignore those files). Is there a better workaround for than that?
+|
+|  The best way to work around this is to specify the Dockerfile independently of the build context, using -f.
+|  For instance, this command will give the ADD command access to anything in your current directory.
+|  docker build -f docker-files/Dockerfile .
+|  Update: Docker now allows having the Dockerfile outside the build context (fixed in 18.03.0-ce). So you can also do something like
+|  
+\  docker build -f ../Dockerfile .
