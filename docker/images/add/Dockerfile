@@ -20,12 +20,19 @@ WORKDIR /build
 #
 ###
 
+#TODO src variations:
 ADD src.txt dest.txt
-ADD --keep-git-dir src.txt dest.txt
-ADD --checksum src.txt dest.txt
-ADD --chown src.txt dest.txt
-ADD --chmod src.txt dest.txt
-ADD --link src.txt dest.txt
-ADD --exclude src.txt dest.txt
+ADD src-1.txt src-2.txt dest-newer.txt
+ADD src-1.txt src-2.txt dest-file
+ADD src-1.txt src-2.txt /dest-file
+ADD src-1.txt src-2.txt /dest-file/
+ADD src-1.txt src-2.txt dest-file/
+ADD https://raw.githubusercontent.com/koolo90/learning-resources/refs/heads/main/src.txt dest.txt
+ADD https://raw.githubusercontent.com/koolo90/learning-resources/refs/heads/main/wallpapers.tar dest.txt
+#ADD --checksum src.txt dest.txt
+#ADD --chown src.txt dest.txt
+#ADD --chmod src.txt dest.txt
+#ADD --link src.txt dest.txt
+#ADD --exclude src.txt dest.txt
 
 CMD ["sleep", "infinity"]

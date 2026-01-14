@@ -3,8 +3,6 @@ ADD has two forms. The latter form is required for paths containing whitespace.
 
 ```Dockerfile
 ADD [OPTIONS] <src> ... <dest>
-```
-```Dockerfile
 ADD [OPTIONS] ["<src>", ... "<dest>"]
 ```
 The available `[OPTIONS]` are:
