@@ -17,6 +17,16 @@ The available `[OPTIONS]` are:
 | `--exclude`      | Specifies a path expression for files to be excluded.    | 1.19  |
 | `--unpack`       | Unpacks source if its an archive.                        | ?.??  |
 
+Possible values for `<src>` are:
+
+| Value | Description    | Multipleness | Example                              |
+|-------|----------------|--------------|--------------------------------------|
+| PATH  | Path of file   | Yes          | `path/to-a/file.txt`                 |
+| URL   | URL of file    | ?            | `https://example.com/file.txt`       |
+| GIT   | Git repository | ?            | ` git@github.com:user/repo.git     ` |  
+| GIT   | "              | ?            | `https://github.com/user/repo.git`   | 
+| ARCH  | Archive file   | ?            | `path/to-a/archive.tar`              |
+
 The `ADD` instruction copies new files or directories from `<src>` and adds them to the 
 filesystem of the image at the path `<dest>`. Files and directories can be copied from the 
 build context, a remote URL, or a Git repository.
