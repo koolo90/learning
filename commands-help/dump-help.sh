@@ -42,6 +42,7 @@ bash -c "$shell_command_name --help" >> "$help_file_dump_path"
 
 git add "$help_file_dump_path"
 git commit -m "feat(help): Dumped help for $shell_command_name"
+git checkout -
 
 echo "You can now publish changes by executing: [$ git push $branch_name]"
 echo "\t git push $branch_name"
