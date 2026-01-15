@@ -24,7 +24,7 @@ echo "DEBUG: Creating branch for [$shell_command_name], named: [$branch_name]"
 if [[ $(git status --porcelain) ]]; then
   echo "INFO: git repository status is clear, creating branch"
   git status
-  se
+else
   echo "INFO: git repository poluted with user changes, aborting!"
   git status
 fi
