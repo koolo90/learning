@@ -33,6 +33,7 @@ else
   git checkout "$branch_name"
 fi
 
+pause
 echo "INFO: Creating directory for: [$shell_command_name], path: [$help_dir_dump_path]"
 mkdir -p "$help_dir_dump_path" && ls "$help_dir_dump_path"
 echo "INFO: Creating help file dump for: [$shell_command_name], path: [$help_file_dump_path]"
