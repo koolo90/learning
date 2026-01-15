@@ -45,7 +45,7 @@ git commit -m "feat(help): Dumped help for $shell_command_name"
 git checkout -
 
 echo "You can now publish changes by executing: [$ git push $branch_name]"
-echo "\t git push $branch_name"
+echo -e "\t git push origin $branch_name"
 echo "File is stored in dir: [$help_dir_dump_path]"
 echo "Content of grabbed help file for [$shell_command_name] is: "
 echo "=== [$help_file_dump_path] ==="
