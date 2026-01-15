@@ -17,17 +17,22 @@ if [[ $(find /usr/bin -name "$shell_command_name.exe") ]]; then
     echo "DEBUG: Executable for [$shell_command_name] found."
 else
     echo "ERROR: Executable for [$shell_command_name] not found!"
-    exit 1
+    exit -1
 fi
 
 echo "DEBUG: Creating branch for [$shell_command_name], named: [$branch_name]"
 if [[ $(git status --porcelain) ]]; then
-  echo "INFO: git repository status is clear, creating branch"
-  git status
-else
   echo "INFO: git repository poluted with user changes, aborting!"
   git status
+  exit -2
+else
+  echo "INFO: git repository status is clear, creating branch"
+  git checkout main
+  git pull
+  git branch "$branch_name" main
+  git checkout "$branch_name"
 fi
+
 echo "INFO: Creating directory for: [$shell_command_name], path: [$help_dir_dump_path]"
 echo "INFO: Creating help file dump for: [$shell_command_name], path: [$help_file_dump_path]"
 echo "INFO: Dumping help page for: [$shell_command_name]"
