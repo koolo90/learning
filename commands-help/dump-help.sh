@@ -21,7 +21,11 @@ else
 fi
 
 echo "DEBUG: Creating branch for [$shell_command_name], named: [$branch_name]"
-git status
+if [[ $(git status --porcelain) ]]; then
+  echo "INFO: git repository status is clear, creating branch"
+else
+  echo "INFO: git repository poluted with user changes, aborting!"
+fi
 echo "INFO: Creating directory for: [$shell_command_name], path: [$help_dir_dump_path]"
 echo "INFO: Creating help file dump for: [$shell_command_name], path: [$help_file_dump_path]"
 echo "INFO: Dumping help page for: [$shell_command_name]"
