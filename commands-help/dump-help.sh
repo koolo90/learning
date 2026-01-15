@@ -27,16 +27,23 @@ if [[ $(git status --porcelain) ]]; then
   exit -2
 else
   echo "INFO: git repository status is clear, creating branch"
-  git checkout main
-  git pull
-  git branch "$branch_name" main
+  echo "DEBUG: Temporarily disabled for development purposes..."
+  git fetch
+  git branch "$branch_name" origin/main
   git checkout "$branch_name"
 fi
 
 echo "INFO: Creating directory for: [$shell_command_name], path: [$help_dir_dump_path]"
+mkdir -p "$help_dir_dump_path" && ls "$help_dir_dump_path"
 echo "INFO: Creating help file dump for: [$shell_command_name], path: [$help_file_dump_path]"
+touch $help_file_dump_path && ls "$help_file_dump_path"
 echo "INFO: Dumping help page for: [$shell_command_name]"
-echo "bash -c "$shell_command_name --help" > /dev/null"
+bash -c "$shell_command_name --help" >> "$help_file_dump_path"
+
+git add "$help_file_dump_path"
+git commit -m "feat(help): Dumped help for $shell_command_name"
+
+# cat "$help_file_dump_path"
 
 #pwd
 #git status .
@@ -61,5 +68,5 @@ echo "bash -c "$shell_command_name --help" > /dev/null"
 #git push
 #git checkout main
 
-git branch -d "$branch_name"
+echo "You can now publish changes by executing $ git push $branch_name"
 popd
