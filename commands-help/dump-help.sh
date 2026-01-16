@@ -28,7 +28,7 @@ if [[ $(git status --porcelain) ]]; then
 else
   echo "INFO: git repository status is clear, creating branch"
   echo "DEBUG: Temporarily disabled for development purposes..."
-  git fetch
+  git fetch origin main
   git branch "$branch_name" origin/main
   git checkout "$branch_name"
 fi
