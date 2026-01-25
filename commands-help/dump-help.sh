@@ -32,9 +32,13 @@ function findBinary {
 function createBranch {
   branch_name="feature/$shell_command_name-help-dump"
   if [[ $(git rev-parse --verify $branch_name) ]] ; then
+    log info "Branch [$branch_name] is already in place, checking out.."
     git checkout $branch_name
   else
-    git branch $branch_name main
+    log info "Branch [$branch_name] created"
+    git branch $branch_name main-local
+
+    git checkout $branch_name
   fi
 }
 
