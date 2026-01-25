@@ -34,7 +34,7 @@ function createBranch {
   if [[ $(git rev-parse --verify $branch_name) ]] ; then
     git checkout $branch_name
   else
-    git branch $branch_name main
+    git branch $branch_name main-local
   fi
 }
 
