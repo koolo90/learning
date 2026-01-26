@@ -35,8 +35,13 @@ You can verify the changes with:
 git show 0737dbb
 ```
 
+Or apply the patch to another branch:
+```bash
+git am < scope-creep-revert.patch
+```
+
 The PR #131 now contains only the intended scope: adding help documentation for the `read` command.
 
 ---
 
-**Note**: This fix is ready and committed to the `feature/read-help-dump` branch. The branch is ready to be pushed to update PR #131.
+**Note**: The fix commit (`0737dbb`) has been created on the `feature/read-help-dump` branch locally. To update PR #131, this commit needs to be pushed to the remote `feature/read-help-dump` branch. The patch file (`scope-creep-revert.patch`) is included in this PR as an alternative way to apply the changes.
