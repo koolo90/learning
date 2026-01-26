@@ -5,7 +5,6 @@ echo "DEBUG: Script: $0, args: [$@]"
 source $(dirname "$0")/lib-help.sh
 
 pushd .
-
 shell_command_name="$1"
 validateCommandName $shell_command_name
 
