@@ -82,3 +82,9 @@ function commitChanges {
     return 1
   fi
 }
+
+function printCompletionSummary {
+  log info "You can now publish changes by executing:"
+  log info "\t git push origin $branch_name"
+  log info "File is stored in dir: [$help_dir_dump_path]"
+}
