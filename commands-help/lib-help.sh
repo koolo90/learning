@@ -1,5 +1,3 @@
-#!/usr/bin/bash
-
 # ====] LOG LEVELS: [====
 L_TRACE="trace"
 L_DEBUG="debug"
@@ -12,17 +10,6 @@ L_FATAL="fatal"
 function log() {
   local level=$(echo $1 | tr '[:lower:]' '[:upper:]')
   echo -e "[$level] ${@:2}"
-}
-
-function findBinary {
-  shell_command_name="$1"
-  log info "Function: $FUNCNAME args=[$@]"
-
-  log info "Checking if command [$shell_command_name] exists..."
-
-  local binary_placemet=$(which $shell_command_name)
-  log info "Binary found in: [$binary_placemet]"
-  echo $binary_placemet
 }
 
 function createBranch {
@@ -87,4 +74,15 @@ function printCompletionSummary {
   log info "You can now publish changes by executing:"
   log info "\t git push origin $branch_name"
   log info "File is stored in dir: [$help_dir_dump_path]"
+}
+
+function findBinary {
+  log info "Function: $FUNCNAME args=[$@]"
+  shell_command_name="$1"
+  log info "Checking if command [$shell_command_name] exists..."
+
+  local binary_placemet=$(which $shell_command_name)
+  log info "Binary found in: [$binary_placemet]"
+  echo $binary_placemet
+  return 0;
 }
