@@ -1,18 +1,9 @@
 #!/bin/bash
 
-source ../output/color.sh
-
 function assert() {
-  echo $@
   local args=("$@")
 
-  echo "=== Splitting arguments: ==="
-  for i in "${!args[@]}"; do
-    human_readable_index=$((i+1))
-    echo "$human_readable_index: ${args[$i]}"
-  done
-  echo "=== ===================== ==="
-
+  print_arguments "${args[@]}"
   local type=${args[0]}
   local value=${args[1]}
   local comparator=${args[2]}
@@ -24,9 +15,9 @@ function assert() {
   case $comparator in
       equals)
         if [[ "$value" == "$expected" ]] ; then
-          echo "${BIGreen} OK ${Color_Off}"
+          echo -e "${BIGreen} OK ${Color_Off}"
         else
-          echo "${BIRed} NOK ${Color_Off}"
+          echo -e "${BIRed} NOK ${Color_Off}"
         fi
         ;;
       greater)
