@@ -15,19 +15,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Make test script executable
-        run: chmod +x commands-help/_framework/test/log_tests.sh
+        run: chmod +x ./commands-help/_test/log_tests.sh
 
       - name: Run Log Level Tests (Default - FATAL)
-        run: ./commands-help/_framework/test/log_tests.sh
+        run: ./commands-help/_test/log_tests.sh
         env:
           LOG_LEVEL: FATAL
 
       - name: Run Log Level Tests (All - TRACE)
-        run: ./commands-help/_framework/test/log_tests.sh
+        run: ./commands-help/_test/log_tests.sh
         env:
           LOG_LEVEL: TRACE
 
       - name: Run Log Level Tests (Numeric - INFO)
-        run: ./commands-help/_framework/test/log_tests.sh
+        run: ./commands-help/_test/log_tests.sh
         env:
           LOG_LEVEL: 2
