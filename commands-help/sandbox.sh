@@ -4,7 +4,7 @@ source $(dirname "$0")/_framework/utils/gathered.sh
 source $(dirname "$0")/_framework/test/bash_unit.sh
 source $(dirname "$0")/_framework/output/colors.sh
 source $(dirname "$0")/_framework/utils/arguments.sh
-source $(dirname "$0")/_fframework/utils/log.sh
+source $(dirname "$0")/_framework/utils/log.sh
 
 log_statement=$(log test "Message")
 
