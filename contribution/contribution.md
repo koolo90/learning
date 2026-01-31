@@ -3,6 +3,19 @@
 This document will describe the contribution guidelines for this project.
 It will cover how new code or documentation should be submitted.
 
+## Contribution to tracking tool 
+### Formalized way of conribution
+If you observve that there is a function ality that you would like to see in the project, 
+please createan issue in the project here: https://github.com/users/koolo90/projects/3. 
+
+### For greedy beasts
+If, however, as a greedy developer you've already started working in forked repository 
+or separate branch (the project visbility might change over time), please at least 
+commit your changes with a scope set f.e. 
+`feat(no tracking): brief description`,
+Later there will be implemented hooks that will prevent publishing commits that does not 
+follow that rule. 
+
 ## Table of Contents
 - [Branch Naming](#branch-naming)
 - [Commit Messages](#commit-messages)
