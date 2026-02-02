@@ -1,0 +1,48 @@
+name: Log Function Tests
+
+on:
+  push:
+    branches: [ main, feature/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check current working directory
+        run: pwd
+
+      - name: Check current working directory contents
+        run: ls
+
+      - name: Contents of ./commands-help/ directory
+        run: ls ./commands-help/
+
+      - name: Contents of ./commands-help/_tests/ directory
+        run: ls ./commands-help/_tests/
+
+      - name: Check if file exists in ./commands-help/_tests/ directory
+        run: ls ./commands-help/_tests/log_tests.sh
+
+      - name: Make test script executable
+        run: chmod +x ./commands-help/_tests/log_tests.sh
+
+      - name: Run Log Level Tests (Default - FATAL)
+        run: ./commands-help/_tests/log_tests.sh
+        env:
+          LOG_LEVEL: FATAL
+
+      - name: Run Log Level Tests (All - TRACE)
+        run: ./commands-help/_tests/log_tests.sh
+        env:
+          LOG_LEVEL: TRACE
+
+      - name: Run Log Level Tests (Numeric - INFO)
+        run: ./commands-help/_tests/log_tests.sh
+        env:
+          LOG_LEVEL: 2
