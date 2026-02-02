@@ -14,16 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check current workding directory
+      - name: Check current working directory
         run: pwd
 
-      - name: Check current workding directory contents
+      - name: Check current working directory contents
         run: ls
 
-      - name: Check current workding directory contents
+      - name: Contents of ./commands-help/ directory
         run: ls ./commands-help/
 
-      - name: Check current workding directory contents
+      - name: Contents of ./commands-help/_test/ directory
         run: ls ./commands-help/_test/
 
       - name: Make test script executable
