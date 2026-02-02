@@ -1,0 +1,229 @@
+name: Obsolete Branches Report
+
+on:
+  schedule:
+    # Run every Monday at 12:00 UTC (noon)
+    - cron: '0 12 * * 1'
+  workflow_dispatch: # Allow manual trigger for testing
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all branches
+      
+      - name: Analyze branches and create report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            // Get repository info to determine default branch
+            const repoInfo = await github.rest.repos.get({
+              owner,
+              repo
+            });
+            const defaultBranch = repoInfo.data.default_branch;
+            console.log(`Default branch: ${defaultBranch}`);
+            
+            // Fetch all branches with pagination
+            const branches = [];
+            let page = 1;
+            let hasMore = true;
+            
+            while (hasMore) {
+              const response = await github.rest.repos.listBranches({
+                owner,
+                repo,
+                per_page: 100,
+                page
+              });
+              
+              branches.push(...response.data);
+              hasMore = response.data.length === 100;
+              page++;
+            }
+            
+            console.log(`Found ${branches.length} branches`);
+            
+            // Protected branches to exclude from obsolete report
+            const protectedBranches = [defaultBranch, 'main', 'master', 'develop', 'development'];
+            
+            // Define obsolescence threshold (days)
+            const obsoleteThresholdDays = 90; // 3 months
+            const warningThresholdDays = 60; // 2 months
+            const currentDate = new Date();
+            
+            // Analyze each branch
+            const branchAnalysis = [];
+            
+            for (const branch of branches) {
+              // Skip protected branches
+              if (protectedBranches.includes(branch.name)) {
+                console.log(`Skipping protected branch: ${branch.name}`);
+                continue;
+              }
+              
+              try {
+                // Get the latest commit for the branch
+                const commit = await github.rest.repos.getCommit({
+                  owner,
+                  repo,
+                  ref: branch.commit.sha
+                });
+                
+                const commitDate = new Date(commit.data.commit.committer.date);
+                const daysSinceLastCommit = Math.floor(
+                  (currentDate - commitDate) / (1000 * 60 * 60 * 24)
+                );
+                
+                // Check if branch has been merged
+                let mergeStatus = 'Unknown';
+                try {
+                  const compareResult = await github.rest.repos.compareCommits({
+                    owner,
+                    repo,
+                    base: branch.name,
+                    head: defaultBranch
+                  });
+                  
+                  // If ahead_by is 0, the branch is fully merged
+                  if (compareResult.data.ahead_by === 0) {
+                    mergeStatus = 'Merged';
+                  } else {
+                    mergeStatus = 'Not Merged';
+                  }
+                } catch (error) {
+                  console.log(`Could not determine merge status for ${branch.name}: ${error.message}`);
+                }
+                
+                branchAnalysis.push({
+                  name: branch.name,
+                  lastCommitDate: commitDate.toISOString().split('T')[0],
+                  daysSinceLastCommit,
+                  author: commit.data.commit.author.name,
+                  mergeStatus,
+                  commitSha: branch.commit.sha.substring(0, 7)
+                });
+              } catch (error) {
+                console.log(`Error analyzing branch ${branch.name}: ${error.message}`);
+              }
+            }
+            
+            // Sort by days since last commit (oldest first)
+            branchAnalysis.sort((a, b) => b.daysSinceLastCommit - a.daysSinceLastCommit);
+            
+            // Categorize branches
+            const obsoleteBranches = branchAnalysis.filter(
+              b => b.daysSinceLastCommit >= obsoleteThresholdDays
+            );
+            const warningBranches = branchAnalysis.filter(
+              b => b.daysSinceLastCommit >= warningThresholdDays && 
+                   b.daysSinceLastCommit < obsoleteThresholdDays
+            );
+            const activeBranches = branchAnalysis.filter(
+              b => b.daysSinceLastCommit < warningThresholdDays
+            );
+            
+            // Generate report
+            let report = `# 📊 Obsolete Branches Report\n\n`;
+            report += `**Report Generated:** ${currentDate.toISOString().split('T')[0]}\n\n`;
+            
+            // Summary
+            report += `## 📈 Summary\n\n`;
+            report += `- **Total Branches:** ${branchAnalysis.length}\n`;
+            report += `- **Obsolete (>${obsoleteThresholdDays} days):** ${obsoleteBranches.length}\n`;
+            report += `- **Warning (>${warningThresholdDays} days):** ${warningBranches.length}\n`;
+            report += `- **Active (<${warningThresholdDays} days):** ${activeBranches.length}\n\n`;
+            
+            // Obsolete branches section
+            if (obsoleteBranches.length > 0) {
+              report += `## 🚨 Obsolete Branches (>${obsoleteThresholdDays} days)\n\n`;
+              report += `These branches haven't been updated in over ${obsoleteThresholdDays} days and may be candidates for deletion:\n\n`;
+              report += `| Branch | Last Commit | Days Old | Status | Author | SHA |\n`;
+              report += `|--------|-------------|----------|--------|--------|-----|\n`;
+              
+              for (const branch of obsoleteBranches) {
+                report += `| \`${branch.name}\` | ${branch.lastCommitDate} | ${branch.daysSinceLastCommit} | ${branch.mergeStatus} | ${branch.author} | \`${branch.commitSha}\` |\n`;
+              }
+              report += `\n`;
+            } else {
+              report += `## ✅ Obsolete Branches\n\n`;
+              report += `No obsolete branches found. Great job keeping the repository clean! 🎉\n\n`;
+            }
+            
+            // Warning branches section
+            if (warningBranches.length > 0) {
+              report += `## ⚠️ Warning: Aging Branches (${warningThresholdDays}-${obsoleteThresholdDays} days)\n\n`;
+              report += `These branches are approaching obsolescence:\n\n`;
+              report += `| Branch | Last Commit | Days Old | Status | Author | SHA |\n`;
+              report += `|--------|-------------|----------|--------|--------|-----|\n`;
+              
+              for (const branch of warningBranches) {
+                report += `| \`${branch.name}\` | ${branch.lastCommitDate} | ${branch.daysSinceLastCommit} | ${branch.mergeStatus} | ${branch.author} | \`${branch.commitSha}\` |\n`;
+              }
+              report += `\n`;
+            }
+            
+            // Recommendations
+            report += `## 💡 Recommendations\n\n`;
+            report += `### For Obsolete Branches:\n`;
+            report += `1. **Merged branches**: Can be safely deleted as their changes are already in main\n`;
+            report += `2. **Unmerged branches**: Review with the author before deletion to ensure no work is lost\n`;
+            report += `3. **Unknown status**: Investigate manually to determine if still needed\n\n`;
+            
+            report += `### Actions:\n`;
+            report += `- Review each obsolete branch with its author\n`;
+            report += `- Delete merged branches that are no longer needed\n`;
+            report += `- Archive or update unmerged branches if work is still relevant\n`;
+            report += `- Document any branches that need to be kept long-term\n\n`;
+            
+            report += `---\n`;
+            report += `*This report is generated automatically every Monday at noon UTC.*\n`;
+            report += `*Thresholds: Warning=${warningThresholdDays} days, Obsolete=${obsoleteThresholdDays} days*\n`;
+            
+            // Create or update issue
+            const issueTitle = `📊 Obsolete Branches Report - ${currentDate.toISOString().split('T')[0]}`;
+            
+            // Check if there's an existing open report issue
+            // Using per_page: 1 to only fetch the most recent report
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: 'open',
+              labels: 'obsolete-branches-report',
+              per_page: 1
+            });
+            
+            if (existingIssues.data.length > 0) {
+              // Close the old issue
+              const oldIssue = existingIssues.data[0];
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: oldIssue.number,
+                state: 'closed'
+              });
+              console.log(`Closed previous report issue #${oldIssue.number}`);
+            }
+            
+            // Create new issue
+            const issue = await github.rest.issues.create({
+              owner,
+              repo,
+              title: issueTitle,
+              body: report,
+              labels: ['obsolete-branches-report', 'automated']
+            });
+            
+            console.log(`Created new report issue #${issue.data.number}`);
+            console.log(`Report URL: ${issue.data.html_url}`);
