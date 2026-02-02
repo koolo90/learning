@@ -27,17 +27,36 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             
-            // Fetch all branches
-            const branches = await github.rest.repos.listBranches({
+            // Get repository info to determine default branch
+            const repoInfo = await github.rest.repos.get({
               owner,
-              repo,
-              per_page: 100
+              repo
             });
+            const defaultBranch = repoInfo.data.default_branch;
+            console.log(`Default branch: ${defaultBranch}`);
             
-            console.log(`Found ${branches.data.length} branches`);
+            // Fetch all branches with pagination
+            const branches = [];
+            let page = 1;
+            let hasMore = true;
+            
+            while (hasMore) {
+              const response = await github.rest.repos.listBranches({
+                owner,
+                repo,
+                per_page: 100,
+                page
+              });
+              
+              branches.push(...response.data);
+              hasMore = response.data.length === 100;
+              page++;
+            }
+            
+            console.log(`Found ${branches.length} branches`);
             
             // Protected branches to exclude from obsolete report
-            const protectedBranches = ['main', 'master', 'develop', 'development'];
+            const protectedBranches = [defaultBranch, 'main', 'master', 'develop', 'development'];
             
             // Define obsolescence threshold (days)
             const obsoleteThresholdDays = 90; // 3 months
@@ -47,7 +66,7 @@ jobs:
             // Analyze each branch
             const branchAnalysis = [];
             
-            for (const branch of branches.data) {
+            for (const branch of branches) {
               // Skip protected branches
               if (protectedBranches.includes(branch.name)) {
                 console.log(`Skipping protected branch: ${branch.name}`);
@@ -74,7 +93,7 @@ jobs:
                     owner,
                     repo,
                     base: branch.name,
-                    head: 'main'
+                    head: defaultBranch
                   });
                   
                   // If ahead_by is 0, the branch is fully merged
@@ -176,6 +195,7 @@ jobs:
             const issueTitle = `📊 Obsolete Branches Report - ${currentDate.toISOString().split('T')[0]}`;
             
             // Check if there's an existing open report issue
+            // Using per_page: 1 to only fetch the most recent report
             const existingIssues = await github.rest.issues.listForRepo({
               owner,
               repo,
