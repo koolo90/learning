@@ -26,6 +26,9 @@ jobs:
       - name: Contents of ./commands-help/_test/ directory
         run: ls ./commands-help/_test/
 
+      - name: Check if file exists in ./commands-help/_test/ directory
+        run: ls ./commands-help/_test/log_tests.sh
+
       - name: Make test script executable
         run: chmod +x ./commands-help/_test/log_tests.sh
 
