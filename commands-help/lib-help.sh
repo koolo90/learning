@@ -4,6 +4,17 @@
 source "$(dirname "${BASH_SOURCE[0]}")/_framework/utils/log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/_framework/utils/gathered.sh"
 
+# Trim whitespace and quotes from a string
+function trim {
+  local str="$1"
+  # Remove leading/trailing whitespace and quotes
+  str="${str#"${str%%[![:space:]]*}"}"  # Remove leading whitespace
+  str="${str%"${str##*[![:space:]]}"}"  # Remove trailing whitespace
+  str="${str#\"}"  # Remove leading quote
+  str="${str%\"}"  # Remove trailing quote
+  echo "$str"
+}
+
 # Parse a single command into command and subcommand parts
 # Example: "git branch" -> command="git", subcommand="branch"
 function parseCommand {
@@ -37,7 +48,7 @@ function parseCommaSeparatedCommands {
   export parsed_commands=()
   for cmd in "${commands[@]}"; do
     # Trim leading/trailing whitespace and quotes
-    cmd=$(echo "$cmd" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+    cmd=$(trim "$cmd")
     if [[ -n "$cmd" ]]; then
       parsed_commands+=("$cmd")
       log debug "Added command: [$cmd]"
@@ -63,7 +74,7 @@ function parseCommandsFromFile {
     [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
     
     # Trim whitespace
-    line=$(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+    line=$(trim "$line")
     
     if [[ -n "$line" ]]; then
       parsed_commands+=("$line")

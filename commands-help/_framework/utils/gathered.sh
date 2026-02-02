@@ -12,8 +12,15 @@ function createBranch {
     log info "Branch [$branch_name] is already in place, checking out.."
     git checkout $branch_name
   else
-    log info "Branch [$branch_name] created"
-    git branch $branch_name main-local 2>/dev/null || git branch $branch_name HEAD
+    log info "Creating branch [$branch_name]..."
+    # Try to branch from main-local, fall back to HEAD if it doesn't exist
+    if git rev-parse --verify main-local >/dev/null 2>&1; then
+      git branch $branch_name main-local
+      log debug "Branched from main-local"
+    else
+      git branch $branch_name HEAD
+      log debug "Branched from HEAD (main-local not found)"
+    fi
     git checkout $branch_name
   fi
 }
