@@ -20,6 +20,12 @@ jobs:
       - name: Check current workding directory contents
         run: ls
 
+      - name: Check current workding directory contents
+        run: ls ./commands-help/
+
+      - name: Check current workding directory contents
+        run: ls ./commands-help/_test/
+
       - name: Make test script executable
         run: chmod +x ./commands-help/_test/log_tests.sh
 
