@@ -14,9 +14,9 @@ function createBranch {
   else
     log info "Creating branch [$branch_name]..."
     # Try to branch from main-local, fall back to HEAD if it doesn't exist
-    if git rev-parse --verify main-local >/dev/null 2>&1; then
-      git branch $branch_name main-local
-      log debug "Branched from main-local"
+    if git rev-parse --verify main >/dev/null 2>&1; then
+      git branch $branch_name main
+      log debug "Branched from main"
     else
       git branch $branch_name HEAD
       log debug "Branched from HEAD (main-local not found)"
