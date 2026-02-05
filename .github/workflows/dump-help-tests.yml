@@ -1,0 +1,40 @@
+name: Dump-Help Script Tests
+
+on:
+  push:
+    branches: [ main, feature/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check current working directory
+        run: pwd
+
+      - name: Check current working directory contents
+        run: ls
+
+      - name: Contents of ./commands-help/ directory
+        run: ls ./commands-help/
+
+      - name: Contents of ./commands-help/_tests/ directory
+        run: ls ./commands-help/_tests/
+
+      - name: Check if test file exists
+        run: ls ./commands-help/_tests/dump-help-tests.sh
+
+      - name: Make test script executable
+        run: chmod +x ./commands-help/_tests/dump-help-tests.sh
+
+      - name: Run dump-help tests
+        run: ./commands-help/_tests/dump-help-tests.sh
+        env:
+          LOG_LEVEL: FATAL
