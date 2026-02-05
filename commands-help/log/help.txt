@@ -1,0 +1,91 @@
+log - Bash logging utility function
+====================================
+
+SYNOPSIS
+--------
+    log LEVEL MESSAGE...
+
+DESCRIPTION
+-----------
+    The log function provides a flexible logging mechanism with multiple severity
+    levels and colored output. It is defined in _framework/utils/log.sh.
+
+LOG LEVELS
+----------
+    The following log levels are supported (from lowest to highest severity):
+
+    Level       Initial    Numeric    Color
+    -----       -------    -------    -----
+    TRACE       t          0          Purple
+    DEBUG       d          1          Blue
+    INFO        i          2          Default
+    WARN        w          3          Yellow
+    ERROR       e          4          Red
+    FATAL       f          5          Red (highlighted)
+
+    Log levels can be specified by:
+    - Full name (case-insensitive): trace, debug, info, warn, error, fatal
+    - Initial letter (case-insensitive): t, d, i, w, e, f
+
+ENVIRONMENT VARIABLES
+---------------------
+    LOG_LEVEL
+        Sets the minimum log level threshold. Messages below this level will
+        not be displayed. Can be set using:
+        - Full level name: TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+        - Initial letter: t, d, i, w, e, f
+        - Numeric value: 0-5
+        
+        Default: FATAL (only fatal messages are shown)
+
+EXAMPLES
+--------
+    # Set log level to INFO to see info, warn, error, and fatal messages
+    export LOG_LEVEL=INFO
+    log info "Application started"
+    log warn "Configuration file not found, using defaults"
+    log error "Failed to connect to database"
+    
+    # Using initial letters
+    log i "Information message"
+    log w "Warning message"
+    log e "Error message"
+    
+    # Using numeric log level
+    export LOG_LEVEL=2  # Equivalent to INFO
+    log debug "This won't be displayed"
+    log info "This will be displayed"
+    
+    # Multiple arguments are concatenated
+    log info "User" "logged in from" "192.168.1.1"
+
+OUTPUT FORMAT
+-------------
+    Log messages are displayed with the following format:
+    [TIMESTAMP][LEVEL] MESSAGE
+    
+    Example:
+    [2026-02-05 12:29:02][INFO] Application started
+
+ERROR HANDLING
+--------------
+    If an invalid log level is provided, the function:
+    - Displays a [MISUSE] message indicating the invalid level
+    - Displays a [HINT] message listing valid options
+    - Falls back to FATAL level for the message
+
+TESTING
+-------
+    Tests for the log function are available in:
+    - commands-help/_tests/log_tests.sh
+    
+    GitHub Action workflow for testing:
+    - .github/workflows/log-tests.yml
+
+SOURCE
+------
+    Implementation: commands-help/_framework/utils/log.sh
+
+SEE ALSO
+--------
+    - Color definitions: commands-help/_framework/output/colors.sh
