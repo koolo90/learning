@@ -23,4 +23,8 @@
 hs_err_pid*
 replay_pid*
 
+# Temporary output files
+*.out
+*-out.txt
+
 .idea/
