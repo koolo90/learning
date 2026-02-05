@@ -40,7 +40,7 @@ for cmd in "${parsed_commands[@]}"; do
   createBranch
   createDumpDir
   createHelpFileDump
-  commitChanges
+  #commitChanges
   
   printCompletionSummary
   
