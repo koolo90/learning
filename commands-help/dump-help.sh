@@ -5,32 +5,48 @@ debug_level="trace"
 log debug "Script: $0, args: [$@]"
 log debug "All arguments: $@"
 log debug "Count of arguments: $#"
-log debug "Count of arguments: ${#a[@]}"
 
-# Copy all script arguments to a local array named 'args'.
-# The syntax 'args=("$@")' expands each positional parameter to a 
-# separate word, preserving spaces within individual arguments.
-args=("$@")
+# Validate that at least one argument is provided
+if [[ $# -eq 0 ]]; then
+  log error "No arguments provided. Usage:"
+  log error "  $0 'command'                    - Single command (e.g., 'git branch')"
+  log error "  $0 'cmd1', 'cmd2', 'cmd3'       - Comma-separated commands"
+  log error "  $0 /path/to/file                - File with commands (one per line)"
+  exit 1
+fi
 
-for i in "${!args[@]}"; do
-  human_readable_index=$((i+1))
-  log debug "$human_readable_index: ${args[$i]}"
+# Join all arguments into a single string (in case user passed multiple args)
+input_string="$*"
+
+# Parse input to determine type and extract commands
+parseInput "$input_string"
+
+# Process each command
+for cmd in "${parsed_commands[@]}"; do
+  log info "=========================================="
+  log info "Processing command: [$cmd]"
+  log info "=========================================="
+  
+  # Parse the command into components
+  parseCommand "$cmd"
+  
+  # Validate command exists
+  validateCommandName "$shell_command_name"
+  
+  # Find binary
+  binary_placement=$(findBinary "$shell_command_name")
+  
+  # Create branch, dump dir, help file, and commit
+  createBranch
+  createDumpDir
+  createHelpFileDump
+  commitChanges
+  
+  printCompletionSummary
+  
+  log info "Completed processing: [$cmd]"
+  log info ""
 done
 
-pushd .
-
-shell_command_name="${args[0]}"
-shel_command_args="${args[1]}"
-validateCommandName "$shell_command_name"
-
-binary_placement=$(findBinary "${args[@]}")
-
-createBranch
-createDumpDir
-createHelpFileDump
-commitChanges
-
-printCompletionSummary
-
-# popd
-exit 0;
+log info "All commands processed successfully!"
+exit 0
