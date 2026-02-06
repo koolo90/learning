@@ -1,35 +1,42 @@
 #!/usr/bin/env bash
 
-<<<<<<< Updated upstream
-function exercise1 {
-  echo "I am a function form exercise1"
-}
-
-exercise1
-=======
 # Solution for exercise #1
 function exercise1 {
-  echo "I am a function form exercise #1"
+  echo
+  #echo "script: $0, f(): $FUNCNAME($@)"
 }
-exercise1
+exercise1 || echo $?
 
 # Solution for exercise #2
 function exercise2 {
-  echo "I am function from exercise #2, argument I was given was: [${1}]"
+  echo $1
 }
-exercise2 "The argument"
+exercise2 "The argument" || echo $?
+exercise2 The argument || echo $?
 
 # Solution for exercise #3
-function exercise3 {\
-  echo "I am function from exercise #3, argument I was given was: [${1}, ${2}]"
+function exercise3 {
+  echo "script: $0, f(): $FUNCNAME($#: [$@])"
 }
-exercise3 "The" "argument"
+exercise3 The argument
 
-#Solution for excercise #4
-function exercise4 {\
-  echo "Arguments count: $#"
-  echo "All arguments: $@"
-  echo "Second argument was: [${2}]"
+#Solution for exercise #4
+function exercise4 {
+  echo "script: $0, f(): $FUNCNAME($#: [$@])"
+  return 0
 }
-exercise4 "The" "argument"
->>>>>>> Stashed changes
+exercise4 && echo $?
+
+#Solution for exercise #5
+function exercise5 {
+  echo "script: $0, f(): $FUNCNAME($@)"
+  return 50
+}
+exercise5 || echo $?
+
+#Solution for exercise #4
+function exercise6 {
+  echo "script: $0, f(): $FUNCNAME($@)"
+  return $#
+}
+exercise6 a b c d || echo $?
