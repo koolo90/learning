@@ -1,6 +1,6 @@
 # Exercises for Arrays in Bash
 
-Lsit of exercises for arrays in Bash.
+List of exercises for arrays in Bash.
 The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_01.html).
 
 
