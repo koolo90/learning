@@ -30,7 +30,7 @@ The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/B
    
    [Link to solutions script](./solutions-arrays.sh)
    
-1. Print out the length of the array
+2. Print out the length of the array
 
    <details>
    <summary>Solution</summary>

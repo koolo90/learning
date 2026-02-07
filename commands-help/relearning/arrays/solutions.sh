@@ -2,15 +2,38 @@
 export LOG_LEVEL=1
 
 echo "Excercise 1.1: Create an array"
-inline_array=("inline" 1 2 3 4 5 6 7 8 9)
+inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")
+echo ""
+echo ""
 
 echo "Excercise 2.1: Print an array"
 echo "Entire [inline_array]: [${inline_array[@]}]"
+echo ""
+echo ""
 
-echo "Excercise 2.1: Print length an array"
-echo "Entire [inline_array]: [${#inline_array[@]}]"
+echo "Excercise 2.2: Print length an array"
+echo "Length of [inline_array]: [${#inline_array[@]}]"
+echo ""
+echo ""
 
-echo "Done so far"
+echo "Excercise 2.3: Get the 1st element of an array"
+echo "1st element of [inline_array]: [${inline_array[0]}]"
+echo ""
+echo ""
+
+echo "Excercise 2.3: Get the 1st element of an array"
+echo "1st element of [inline_array]: [${#inline_array[7]}]"
+echo ""
+echo ""
+
+echo "Excercise 2.3: Get the 11th element of an array"
+elem11=${#inline_array[11]}
+echo $?
+echo "1st element of [inline_array]: [${elem11}]"
+echo ""
+echo ""
+
+echo "=== --- Done so far --- ==="
 # ===---===---===
 echo -en "\tElements: ["
 for elem in "${inline_array[@]}"
