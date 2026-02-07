@@ -60,7 +60,7 @@ The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/B
    
    [Link to solutions script](./solutions-arrays.sh)
    
-2. Get n-th element of an array
+4. Get n-th element of an array
 
    <details>
    <summary>Solution</summary>
