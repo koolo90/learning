@@ -1,39 +1,47 @@
 #!/usr/bin/env bash
 export LOG_LEVEL=1
 
-echo "Excercise 1.1: Create an array"
+echo "Exercise 1.1: Create an array"
 inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")
 echo ""
-echo ""
 
-echo "Excercise 2.1: Print an array"
+echo "Exercise 2.1: Print an array"
 echo "Entire [inline_array]: [${inline_array[@]}]"
 echo ""
+
+echo "Exercise 2.2: Print length an array"
+array_length=${#inline_array[@]}
+echo "Length of [inline_array] as variable [array_length]: [${#inline_array[@]}]"
+echo "Length of [inline_array]: [${array_length}]"
 echo ""
 
-echo "Excercise 2.2: Print length an array"
-echo "Length of [inline_array]: [${#inline_array[@]}]"
-echo ""
-echo ""
-
-echo "Excercise 2.3: Get the 1st element of an array"
-echo "1st element of [inline_array]: [${inline_array[0]}]"
-echo ""
+echo "Exercise 2.3: Get the 1'st element of an array"
+echo "1'st element of [inline_array]: [${inline_array[0]}]"
 echo ""
 
-echo "Excercise 2.3: Get the 1st element of an array"
-echo "1st element of [inline_array]: [${#inline_array[7]}]"
-echo ""
+echo "Exercise 2.4: Get the n-th element of an array"
+echo "7th element of [inline_array]: [${#inline_array[7]}]"
 echo ""
 
-echo "Excercise 2.3: Get the 11th element of an array"
-elem11=${#inline_array[11]}
-echo $?
-echo "1st element of [inline_array]: [${elem11}]"
+echo "Exercise 2.5: Calculate index of last element in the array"
+last_elem_idx=$((array_length - 1))
+echo "Last element index: [${last_elem_idx}]"
 echo ""
+
+echo "Exercise 2.6: Get the last element of an array"
+last_element=${inline_array[$last_elem_idx]}
+echo "Last element of [inline_array]: [${last_element}]"
 echo ""
+
+echo "Exercise 2.7: Get the out-of-bounds element of an array"
+post_last_elem_idx=$((array_length))
+last_element=${inline_array[$post_last_elem_idx]}
+echo "Last element of [inline_array]: [${last_element}]"
+echo ""
+
 
 echo "=== --- Done so far --- ==="
+exit 0
 # ===---===---===
 echo -en "\tElements: ["
 for elem in "${inline_array[@]}"

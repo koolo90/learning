@@ -74,7 +74,19 @@ The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/B
 
    [Link to solutions script](./solutions-arrays.sh)
 
-5. Get the last element of an array
+5. Calculate the last index of an array
+
+   <details>
+   <summary>Solution</summary>
+
+   ```bash
+   array=(a b c)
+   ```
+   </details>
+
+[Link to solutions script](./solutions-arrays.sh)
+
+6. Get the last element of an array
 
    <details>
    <summary>Solution</summary>
