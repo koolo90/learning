@@ -1,31 +1,40 @@
 #!/usr/bin/env bash
 export LOG_LEVEL=1
 
+echo "Chapter. 1 - C - Create"
 echo "Exercise 1.1: Create an array"
 inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")
+echo -e '\t$ inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")'
 echo ""
 
+echo "Chapter. 2 - C - Read"
 echo "Exercise 2.1: Print an array"
+echo -e '\t ${inline_array[@]}'
 echo "Entire [inline_array]: [${inline_array[@]}]"
 echo ""
 
 echo "Exercise 2.2: Print length an array"
-array_length=${#inline_array[@]}
-echo "Length of [inline_array] as variable [array_length]: [${#inline_array[@]}]"
-echo "Length of [inline_array]: [${array_length}]"
+echo -e '\t ${#inline_array[@]}'
+echo "Length of [inline_array]: [${#inline_array[@]}]"
+echo "Length of [inline_array] as variable [array_length]: [${array_length}]"
 echo ""
 
 echo "Exercise 2.3: Get the 1'st element of an array"
-echo "1'st element of [inline_array]: [${inline_array[0]}]"
+echo -e '\t ${inline_array[0]}'
+fetched_index=0
+echo "1'st element of [inline_array]: [${inline_array[fetched_index]}]"
 echo ""
 
 echo "Exercise 2.4: Get the n-th element of an array"
-echo "7th element of [inline_array]: [${#inline_array[7]}]"
+fetched_index=7
+echo "7th element of [inline_array]: [${#inline_array[fetched_index]}]"
 echo ""
 
 echo "Exercise 2.5: Calculate index of last element in the array"
-last_elem_idx=$((array_length - 1))
-echo "Last element index: [${last_elem_idx}]"
+last_element_idx=
+fetched_index=$((${#inline_array[@]} - 1))
+fetched_element=${inline_array[$fetched_index]}
+echo "Last element index: [${fetched_element}]"
 echo ""
 
 echo "Exercise 2.6: Get the last element of an array"
@@ -39,8 +48,6 @@ last_element=${inline_array[$post_last_elem_idx]}
 echo "Last element of [inline_array]: [${last_element}]"
 echo ""
 
-
-echo "=== --- Done so far --- ==="
 exit 0
 # ===---===---===
 echo -en "\tElements: ["

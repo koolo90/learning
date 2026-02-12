@@ -80,7 +80,7 @@ The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/B
    <summary>Solution</summary>
 
    ```bash
-   array=(a b c)
+   echo $((${#array[@]} - 1))
    ```
    </details>
 
