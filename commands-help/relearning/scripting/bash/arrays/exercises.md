@@ -3,7 +3,6 @@
 List of exercises for arrays in Bash.
 The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_01.html).
 
-
 ## 1. C - Create
 1. Create an array
 
@@ -24,9 +23,8 @@ The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/B
    <summary>Solution</summary>
    
    ```bash
-   #... array definition above
+   array=("first" 1 2 3 "nth" 5 6 7 8 "last")
    echo "${array[@]}"
-   #...
    ```
    </details>
    
@@ -98,7 +96,7 @@ The exercises are based on the [Bash Guide for Beginners](https://tldp.org/LDP/B
 
    [Link to solutions script](./solutions-arrays.sh)
 
-4. Get all elements of an array
+7. Get all elements of an array
 
    <details>
    <summary>Solution</summary>

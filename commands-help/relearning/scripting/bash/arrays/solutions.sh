@@ -1,17 +1,57 @@
 #!/usr/bin/env bash
 export LOG_LEVEL=1
 
+chapters=(
+"1. Create"
+"2. Read"
+"3. Update"
+"4. Erase"
+"5. List (for collections only)"
+)
+
+exercises_chpt_1=(
+"1. Create an array - one-line variable initialization"
+)
+
+function print_cmdlet {
+  echo -e "$ ${1}"
+  eval "${1}"
+  echo "Entire [inline_array]: [${inline_array[@]}]"
+}
+
 echo "Chapter. 1 - C - Create"
 echo "Exercise 1.1: Create an array"
 inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")
-echo -e '\t$ inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")'
-echo ""
+declare -a my_list=("apple" "banana" "cherry")
+new_list+=("date")
+
+echo "Entire [inline_array]: [${inline_array[@]}]"
+echo "Entire [my_list]: [${my_list[@]}]"
+echo "Entire [new_list]: [${new_list[@]}]"
+
+print_cmdlet 'inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")'
 
 echo "Chapter. 2 - C - Read"
+
 echo "Exercise 2.1: Print an array"
-echo -e '\t ${inline_array[@]}'
+inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")
 echo "Entire [inline_array]: [${inline_array[@]}]"
-echo ""
+
+echo -e '''\t$ inline_array=("first" 1 2 3 "nth" 5 6 7 8 "last")
+\t$ echo "Entire [inline_array]: [${inline_array[@]}]"'''
+exit
+
+echo "Exercise 2.2: Print length an array"
+
+echo "Exercise 2.3: Get the 1'st element of an array"
+
+echo "Exercise 2.4: Get the n-th element of an array"
+
+echo "Exercise 2.5: Calculate index of last element in the array"
+
+echo "Exercise 2.6: Get the last element of an array"
+
+echo "Exercise 2.7: Get the out-of-bounds element of an array"
 
 echo "Exercise 2.2: Print length an array"
 echo -e '\t ${#inline_array[@]}'
