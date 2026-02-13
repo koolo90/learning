@@ -26,21 +26,21 @@ Overview
 The Dockerfile supports the following instructions:
 
 Instruction	Description 
-- *WIPR*: `container-add`: Add local or remote files and directories.
-- *TODO*: `container-arg`: Use build-time variables.
-- *TODO*: `container-cmd`: Specify default commands.
-- =DONE=: `container-copy`: Copy files and directories. 
-- *TODO*: `container-entrypoint`: Specify default executable.
-- *TODO*: `container-env`: Set environment variables.
-- *TODO*: `container-expose`: Describe which ports your application is listening on.
-- *TODO*: `container-from`: Create a new build stage from a base image.
-- *TODO*: `container-healthchek`: Check a container's health on startup.
-- *TODO*: `container-label`: Add metadata to an image.
-- *TODO*: `container-maintainer`: Specify the author of an image.
-- *TODO*: `container-onbuild`: Specify instructions for when the image is used in a build.
-- *TODO*: `container-run`: Execute build commands.
-- *TODO*: `container-shell`: Set the default shell of an image.
-- *TODO*: `container-stopsignal`: Specify the system call signal for exiting a container.
-- *TODO*: `container-user`: Set user and group ID.
-- *TODO*: `container-volume`: Create volume mounts.
-- *TODO*: `container-workdir`: Change working directory.
+- `container-add`: Add local or remote files and directories.
+- `container-arg`: Use build-time variables.
+- `container-cmd`: Specify default commands.
+- `container-copy`: Copy files and directories. 
+- `container-entrypoint`: Specify default executable.
+- `container-env`: Set environment variables.
+- `container-expose`: Describe which ports your application is listening on.
+- `container-from`: Create a new build stage from a base image.
+- `container-healthchek`: Check a container's health on startup.
+- `container-label`: Add metadata to an image.
+- `container-maintainer`: Specify the author of an image.
+- `container-onbuild`: Specify instructions for when the image is used in a build.
+- `container-run`: Execute build commands.
+- `container-shell`: Set the default shell of an image.
+- `container-stopsignal`: Specify the system call signal for exiting a container.
+- `container-user`: Set user and group ID.
+- `container-volume`: Create volume mounts.
+- `container-workdir`: Change working directory.
