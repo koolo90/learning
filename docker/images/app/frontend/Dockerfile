@@ -1,5 +1,5 @@
 ﻿# Latest Node + Angular CLI for local dev builds.
-FROM node:current-slim
+FROM node:24
 
 WORKDIR /app
 

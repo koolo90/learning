@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: ../images/frontend
+      context: ../images/app/frontend
     ports:
       - 4200:4200
     environment:
@@ -9,7 +9,7 @@ services:
 
   backend:
     build:
-      context: ../images/backend
+      context: ../images/app/backend
     ports:
       - 8080:8080
       - 9990:9990
