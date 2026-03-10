@@ -3,6 +3,9 @@ package com.koolo90.tasks.gfg.easy;
 import com.koolo90.framework.test.assertions.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * https://www.geeksforgeeks.org/dsa/program-to-add-two-fractions/
+ */
 public class FractionsAddedShould {
     final FractionsSummator fractionsSummator = new FractionsSummator();
 
