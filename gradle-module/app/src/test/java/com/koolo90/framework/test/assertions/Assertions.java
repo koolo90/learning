@@ -1,6 +1,8 @@
 package com.koolo90.framework.test.assertions;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 public class Assertions extends org.junit.jupiter.api.Assertions {
     public static void assertEmpty(Collection collection) {
@@ -31,5 +33,11 @@ public class Assertions extends org.junit.jupiter.api.Assertions {
 
     public static void assertDoesNotContain(String text, String expectedContent) {
         Assertions.assertFalse(text.contains(expectedContent));
+    }
+
+    public static void assertContainsAll(int[] ints, int[] ints1) {
+        for(int a : ints) {
+            Assertions.assertTrue(Collections.singletonList(ints1).contains(a));
+        }
     }
 }

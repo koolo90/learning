@@ -10,8 +10,7 @@ public class DistanceMeter {
     @Test
     void distance() {
         int[] pointA = {3, 4}, pointB = {7, 7};
-        Assertions.assertEquals(5, distanceBetween(pointA, pointB));
-        Assertions.assertEquals(1.41421, distanceBetween(pointA, pointB));
+        Assertions.assertEquals(5.0, distanceBetween(pointA, pointB));
     }
 
     private Object distanceBetween(int[] pointA, int[] pointB) {
